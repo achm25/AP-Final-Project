@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view"
+    
+    >
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/classes"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="Classes" />
+        <item
+            android:id="@+id/Calender"
+            android:icon="@drawable/ic_event_black_24dp"
+            android:title="Calender" />
+        <item
+            android:id="@+id/notifiction"
+            android:icon="@drawable/ic_notifications_black_24dp"
+            android:title="Notifictions" />
+        <item
+            android:id="@+id/nav_manage"
+
+            android:title="" />
+    </group>
+
+
+    <group android:checkableBehavior="single">
+        <menu>
+
+            <item
+                android:id="@+id/archivedclasses"
+                android:icon="@drawable/ic_move_to_inbox_black_24dp"
+                android:title="Archived Classes" />
+            <item
+                android:id="@+id/classroomfolders"
+                android:icon="@drawable/ic_folder_black_24dp"
+                android:title="Classroom folder" />
+            <item
+                android:id="@+id/setting"
+                android:icon="@drawable/ic_settings_black_24dp"
+                android:title="Settings" />
+            <item
+                android:id="@+id/help"
+                android:icon="@drawable/ic_help_black_24dp"
+                android:title="Help" />
+        </menu>
+    </group>
+    <item android:title="Teaching">
+
+    </item>
+</menu>
