@@ -1,6 +1,9 @@
 package com.example.myprozhepayanterm;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.Toast;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,15 +26,24 @@ import android.support.v4.app.FragmentManager;
 import com.fxn.cue.Cue;
 import com.fxn.cue.enums.Type;
 
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.lang.reflect.Array;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class MainActivity extends AppCompatActivity implements  NavigationView.OnNavigationItemSelectedListener  {
  Toolbar toolbar;
  NavigationView nv;
-
+ImageView imageView ;
+    byte[] bitmapdata;
+    User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_layput);
-
+        user = (User) getIntent().getSerializableExtra("user");
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -40,10 +53,16 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
         nv = findViewById(R.id.nav);
 
 
-
+        View headerView = nv.getHeaderView(0);
+        imageView = headerView.findViewById(R.id.imageview_header);
+        byte[] imgByte = user.avatar;
+        System.out.println(Arrays.toString(imgByte));
+        Bitmap bmp= BitmapFactory.decodeByteArray(imgByte,0,imgByte.length);
+        imageView.setImageBitmap(bmp);
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -52,6 +71,8 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
 
 
         nv.setNavigationItemSelectedListener( this);
+
+
 
 
      /*   IntroSliderPref preman = new IntroSliderPref(this);
@@ -72,12 +93,14 @@ if(preman.startSlider())
             Intent i = new Intent(this,Setting.class);
            startActivity(i);
         } else if (id == R.id.classes) {
-           // Intent b = new Intent(this,registerAct.class);
-         //   startActivity(b);
+            Intent i = new Intent(this,ClassPage.class);
+            startActivity(i);
         } else if (id == R.id.Calender) {
-
+            Intent i = new Intent(this,SettingTeacher.class);
+            startActivity(i);
         } else if (id == R.id.notifiction) {
-
+            Intent i = new Intent(getApplicationContext(),AddHomework.class);
+            startActivity(i);
         } else if (id == R.id.archivedclasses) {
 
         } else if (id == R.id.classroomfolders) {

@@ -1,0 +1,18 @@
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item android:id="@+id/save_settingteacher"
+        android:icon="@drawable/ic_done_black_24dp"
+        android:title="save"
+        app:showAsAction="always">
+
+    </item>
+
+
+    <item
+        android:id="@+id/sendgooglefeedback_settingteacher"
+        android:orderInCategory="100"
+        android:title="send google feedback"
+        app:showAsAction="never" />
+</menu>

@@ -1,0 +1,25 @@
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/cancle_joinclass"
+
+        android:icon="@drawable/ic_close_black_24dp"
+        android:title="CREATE"
+        app:showAsAction="always">
+
+    </item>
+
+    <item android:id="@+id/join_joinclass"
+
+        android:title="JOIN"
+        app:showAsAction="always">
+
+    </item>
+
+
+    <item
+        android:id="@+id/aboutus_joinclass"
+        android:orderInCategory="100"
+        android:title="About Us"
+        app:showAsAction="never" />
+</menu>

@@ -31,7 +31,7 @@ public class Intro_slider extends AppCompatActivity {
         btn_signin = findViewById(R.id.btn_signin);
         myLinear = findViewById(R.id.layoutDots);
         vp.setAdapter(new SlidePageAdapter());
-
+//btn_signin.setBackgroundResource(R.drawable.ic_add_black_24dp);
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

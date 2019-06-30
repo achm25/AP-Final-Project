@@ -43,13 +43,13 @@
             android:layout_marginBottom="5dp"
             android:background="#808080"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/emailEditText"
+
             app:layout_constraintStart_toEndOf="@+id/usernameImageView"
             app:layout_constraintTop_toTopOf="parent" />
 
 
         <EditText
-            android:id="@+id/emailEditText"
+            android:id="@+id/username_signin"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginEnd="5dp"
@@ -100,7 +100,7 @@
 
 
         <EditText
-            android:id="@+id/passwordEditText"
+            android:id="@+id/password_signin"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginEnd="5dp"

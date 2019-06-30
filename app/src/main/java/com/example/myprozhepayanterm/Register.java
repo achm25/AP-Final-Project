@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -15,19 +17,32 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.util.ArrayList;
 
+import com.example.myprozhepayanterm.*;
 public class Register extends AppCompatActivity {
+    byte [] imgbyte;
+    User user = new User();
     ImageView imageView;
-
-
+String username;
+String password;
+Button btn;
     EditText userText;
     EditText passText;
+    boolean check =false;
+    boolean checkPass =false;
+    boolean checkUser = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +52,7 @@ public class Register extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.imageView3);
         userText = findViewById(R.id.username_text);
         passText = findViewById(R.id.passwordEditText);
-
+btn = findViewById(R.id.button_register);
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -55,6 +70,11 @@ public class Register extends AppCompatActivity {
                 if (userText.getText().toString().trim().length() < 4) {
                     userText.setError("کوتاه است!");
                 }
+                else
+                {
+                    username=userText.getText().toString().trim();
+                    checkUser = true;
+                }
 
             }
         });
@@ -65,9 +85,36 @@ public class Register extends AppCompatActivity {
                 if (passText.getText().toString().trim().length() < 5) {
                     passText.setError("کوتاه است!");
                 }
+                else
+                {
+                    password=passText.getText().toString().trim();
+                    checkPass = true;
+                }
             }
         });
 
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (imageView.getDrawable() !=null) {
+
+                    Bitmap bmp = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                    imgbyte = baos.toByteArray();
+                    System.out.println("ssss " + imgbyte);
+                }
+                if(checkPass == true && checkUser == true)
+                {
+
+                    check = true;
+                    SocketToPC socketToPC = new SocketToPC();
+                    user.avatar = imgbyte;
+                    socketToPC.execute(username,password,imgbyte);
+                }
+            }
+        });
     }
 
     private void selectImage(Context context) {
@@ -136,7 +183,7 @@ public class Register extends AppCompatActivity {
 
 
                         //to know about the selected image width and height
-                        Toast.makeText(this, imageView.getDrawable().getIntrinsicWidth() + " & " + imageView.getDrawable().getIntrinsicHeight(), Toast.LENGTH_SHORT).show();
+
 
                     } else {
                         Toast.makeText(this, "You haven't picked Image", Toast.LENGTH_LONG).show();
@@ -165,6 +212,60 @@ public class Register extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+
+
+
+
+
+    private class SocketToPC extends AsyncTask<Object,Void,String> {
+        Socket s;
+        ObjectOutputStream objectOutputStream;
+        ObjectInputStream objectInputStream;
+
+        @Override
+        protected String doInBackground(Object... input) {
+            String[] strings = {(String)input[0] , (String)input[1] } ;
+            System.out.println((String)input[1]);
+            byte[] imgByte = (byte[])input[2];
+            try {
+
+                System.out.println("shod");
+                s = new Socket("192.168.1.5",6800);
+                objectOutputStream = new ObjectOutputStream(s.getOutputStream());
+                objectInputStream= new ObjectInputStream(s.getInputStream());
+                objectOutputStream.writeObject("register");
+                objectOutputStream.writeObject(strings);
+                objectOutputStream.flush();
+                objectOutputStream.writeObject(imgByte);
+                objectOutputStream.flush();
+                objectOutputStream.close();
+                objectInputStream.close();
+                s.close();
+            }
+            catch (Exception e)
+            {
+
+            }
+            return null;
+        }
+        @Override
+        protected void onPostExecute(String s) {
+
+
+            if (check) {
+
+                Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                i.putExtra("user" , user);
+                startActivity(i);
+            }else {
+
+            }
+
+        }
+
     }
 }
 //-----------------------------------------------------------------------------

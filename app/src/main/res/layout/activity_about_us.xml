@@ -35,4 +35,5 @@ android:id="@+id/alireza"
         android:text="github.com/achm25"
         android:textColor="@color/toolbar"
         android:textStyle="italic" />
+
 </RelativeLayout>
