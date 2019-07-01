@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="@color/back">
+    android:background="@color/back"
+    android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:layout_height="wrap_content"
@@ -15,6 +16,19 @@
         android:background="@color/toolbar"
         android:theme="@style/ThemeOverlay.AppCompat.Dark"
         />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rec_mainactivity"
+        android:layout_width="match_parent"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="50dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="80dp"
+        >
+
+    </android.support.v7.widget.RecyclerView>
+
 
 
 </LinearLayout>

@@ -11,13 +11,16 @@ import android.widget.Toast;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.ref.WeakReference;
 import java.net.Socket;
 import java.util.ArrayList;
 
 public class SignIn extends AppCompatActivity {
 Button btn;
 String username;
+    byte [] imgbyte;
 String password;
+
     boolean check1;// for equals from server
     boolean check2;
     EditText userText;
@@ -34,7 +37,7 @@ String password;
             public void onClick(View v) {
                 username=userText.getText().toString().trim();
                 password=passText.getText().toString().trim();
-                SocketToPC_signin s = new SocketToPC_signin();
+                SocketToPC_signin s = new SocketToPC_signin(SignIn.this);
                 s.execute(username,password);
 
 
@@ -48,6 +51,12 @@ String password;
         Socket s;
         ObjectOutputStream objectOutputStream;
         ObjectInputStream objectInputStream;
+        WeakReference<SignIn> activityReference ;
+User user;
+        SocketToPC_signin(SignIn context) {
+            activityReference = new WeakReference<>(context);
+
+        }
 
         @Override
         protected String doInBackground(String... strings) {
@@ -68,6 +77,12 @@ String password;
                 check1=(boolean) objectInputStream.readObject();
 
                 check2=(boolean) objectInputStream.readObject();
+                imgbyte = (byte[])objectInputStream.readObject();
+
+                System.out.println(imgbyte);
+
+                user = (User)objectInputStream.readObject();
+
 
                 objectOutputStream.close();
                 objectInputStream.close();
@@ -83,13 +98,17 @@ String password;
         @Override
         protected void onPostExecute(String s) {
 
-            super.onPostExecute(s);
+            SignIn activity = activityReference.get();
+            if (activity== null || activity.isFinishing()) return;
             if((check1==true) &&(check2 ==true))
             {
 
                 System.out.println("yes");
-                Intent i = new Intent(getApplicationContext(),MainActivity.class);
-                startActivity(i);
+
+
+                Intent i = new Intent(activity,MainActivity.class);
+                i.putExtra("user" , user);
+                activity.startActivity(i);
     /*Intent i = new Intent(getApplicationContext(),MainActivity.class);
     startActivity(i);*/
             }

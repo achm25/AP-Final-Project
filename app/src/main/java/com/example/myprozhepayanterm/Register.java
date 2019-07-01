@@ -27,13 +27,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.ref.WeakReference;
 import java.net.Socket;
 import java.util.ArrayList;
 
 import com.example.myprozhepayanterm.*;
 public class Register extends AppCompatActivity {
     byte [] imgbyte;
-    User user = new User();
+
     ImageView imageView;
 String username;
 String password;
@@ -70,11 +71,7 @@ btn = findViewById(R.id.button_register);
                 if (userText.getText().toString().trim().length() < 4) {
                     userText.setError("کوتاه است!");
                 }
-                else
-                {
-                    username=userText.getText().toString().trim();
-                    checkUser = true;
-                }
+
 
             }
         });
@@ -84,12 +81,9 @@ btn = findViewById(R.id.button_register);
             public void onFocusChange(View v, boolean hasFocus) {
                 if (passText.getText().toString().trim().length() < 5) {
                     passText.setError("کوتاه است!");
+
                 }
-                else
-                {
-                    password=passText.getText().toString().trim();
-                    checkPass = true;
-                }
+
             }
         });
 
@@ -103,16 +97,20 @@ btn = findViewById(R.id.button_register);
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                     imgbyte = baos.toByteArray();
-                    System.out.println("ssss " + imgbyte);
+
                 }
-                if(checkPass == true && checkUser == true)
+                if((passText.getText().toString().trim().length() >= 5) && (userText.getText().toString().trim().length() >= 4))
                 {
 
                     check = true;
-                    SocketToPC socketToPC = new SocketToPC();
-                    user.avatar = imgbyte;
+                    SocketToPC socketToPC = new SocketToPC(Register.this);
+
+username = userText.getText().toString();
+password = passText.getText().toString();
                     socketToPC.execute(username,password,imgbyte);
+
                 }
+
             }
         });
     }
@@ -225,11 +223,18 @@ btn = findViewById(R.id.button_register);
         ObjectOutputStream objectOutputStream;
         ObjectInputStream objectInputStream;
 
+        WeakReference<Register> activityReference ;
+
+        SocketToPC(Register context) {
+            activityReference = new WeakReference<>(context);
+        }
+
         @Override
         protected String doInBackground(Object... input) {
             String[] strings = {(String)input[0] , (String)input[1] } ;
             System.out.println((String)input[1]);
             byte[] imgByte = (byte[])input[2];
+
             try {
 
                 System.out.println("shod");
@@ -237,10 +242,14 @@ btn = findViewById(R.id.button_register);
                 objectOutputStream = new ObjectOutputStream(s.getOutputStream());
                 objectInputStream= new ObjectInputStream(s.getInputStream());
                 objectOutputStream.writeObject("register");
+                objectOutputStream.flush();
                 objectOutputStream.writeObject(strings);
                 objectOutputStream.flush();
                 objectOutputStream.writeObject(imgByte);
                 objectOutputStream.flush();
+
+
+
                 objectOutputStream.close();
                 objectInputStream.close();
                 s.close();
@@ -254,14 +263,13 @@ btn = findViewById(R.id.button_register);
         @Override
         protected void onPostExecute(String s) {
 
-
+            Register activity = activityReference.get();
             if (check) {
+                User user = new User(username , password,imgbyte);
 
-                Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                i.putExtra("user" , user);
-                startActivity(i);
-            }else {
-
+                Intent intent = new Intent(activity, MainActivity.class);
+                intent.putExtra("user" , user);
+                activity.startActivity(intent);
             }
 
         }

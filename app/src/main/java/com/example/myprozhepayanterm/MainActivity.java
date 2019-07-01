@@ -7,6 +7,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.MenuInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -32,33 +34,52 @@ import java.lang.reflect.Array;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements  NavigationView.OnNavigationItemSelectedListener  {
  Toolbar toolbar;
  NavigationView nv;
 ImageView imageView ;
-    byte[] bitmapdata;
+    MyAdapter adapter;
     User user;
+    byte[] bitmapdata;
+
+    RecyclerView recyclerView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_layput);
-        user = (User) getIntent().getSerializableExtra("user");
+         user = (User) getIntent().getSerializableExtra("user");
+
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Classroom");
         toolbar.setSubtitle("powered by Java");
+        List<RecyclerItem> listItems;
 
         nv = findViewById(R.id.nav);
+recyclerView = findViewById(R.id.rec_mainactivity);
+//-----------------------------------------
+
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        listItems = new ArrayList<>();
+        listItems.add(new RecyclerItem("salammm" , "asd"));
+        listItems.add(new RecyclerItem("lllalammm" , "asd"));
+        listItems.add(new RecyclerItem("ggggmm" , "asd"));
+        listItems.add(new RecyclerItem("jjjlammm" , "asd"));
+        listItems.add(new RecyclerItem("lllllammm" , "asd"));
+
+        adapter = new MyAdapter(listItems,this);
+        recyclerView.setAdapter(adapter);
 
 
+        //---------------------------------------------
         View headerView = nv.getHeaderView(0);
         imageView = headerView.findViewById(R.id.imageview_header);
-        byte[] imgByte = user.avatar;
-        System.out.println(Arrays.toString(imgByte));
-        Bitmap bmp= BitmapFactory.decodeByteArray(imgByte,0,imgByte.length);
-        imageView.setImageBitmap(bmp);
+
+
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -82,6 +103,14 @@ if(preman.startSlider())
     startActivity(i);
     //finish();
 }*/
+        if(user.imagebyte != null)
+        {
+            byte[] imgByte = user.imagebyte;
+            System.out.println(Arrays.toString(imgByte));
+            Bitmap bmp= BitmapFactory.decodeByteArray(imgByte,0,imgByte.length);
+            imageView.setImageBitmap(bmp);
+
+        }
     }
 
 
@@ -146,7 +175,9 @@ if(preman.startSlider())
         int id = item.getItemId();
         if(id == R.id.refresh)
         {
-            Toast.makeText(getApplicationContext(),"refresh",Toast.LENGTH_LONG);
+            /*System.out.println("ffffffff");
+            SocketToPC_mainClass socketToPC_mainClass = new SocketToPC_mainClass();
+            socketToPC_mainClass.execute(user.username,user.password);*/
         }
         else if(id == R.id.aboutus)
         {
@@ -163,7 +194,8 @@ if(preman.startSlider())
         {
 
 
-            Intent i = new Intent(getApplicationContext(),CreateClass.class);
+           Intent i = new Intent(getApplicationContext(),CreateClass.class);
+            i.putExtra("user" , user);
             startActivity(i);
         }
 
@@ -171,5 +203,53 @@ if(preman.startSlider())
         return super.onOptionsItemSelected(item);
     }
 
+
+
+    //-------------------
+    private class SocketToPC_mainClass extends AsyncTask<String,Void,String> {
+        Socket s;
+        ObjectOutputStream objectOutputStream;
+        ObjectInputStream objectInputStream;
+
+        @Override
+        protected String doInBackground(String... input) {
+            ArrayList<String> arr = new ArrayList<>();
+            for(String str : input)
+            {
+                arr.add(str);
+            }
+            try {
+
+                System.out.println("shodfffff");
+                s = new Socket("192.168.1.5",6800);
+                objectOutputStream = new ObjectOutputStream(s.getOutputStream());
+                objectInputStream= new ObjectInputStream(s.getInputStream());
+                objectOutputStream.writeObject("main");
+                objectOutputStream.flush();
+                objectOutputStream.writeObject(arr);
+                objectOutputStream.flush();
+                User user=(User)objectInputStream.readObject();
+                System.out.println(user.username + "  1");
+                System.out.println(user.password);
+
+                objectOutputStream.close();
+                objectInputStream.close();
+                s.close();
+            }
+            catch (Exception e)
+            {
+
+            }
+            return null;
+        }
+        @Override
+        protected void onPostExecute(String s) {
+
+            super.onPostExecute(s);
+
+
+        }
+
+    }
 
 }
