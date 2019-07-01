@@ -4,12 +4,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class User implements Serializable {
-    private static final long serialVersionUID = 7829136421241571165L;
+    private static final long serialVersionUID = 7L;
     String username;
     String password;
     byte[] imagebyte ;
 
-    ArrayList<Class> myClass = new ArrayList<>();
+
+    ArrayList<myClass> studentOfMyClasses =new ArrayList<>();
+    ArrayList<myClass> teacherOfMyClasses = new ArrayList<>();
 
     public User(String username, String password) {
         this.username = username;
@@ -22,12 +24,20 @@ public class User implements Serializable {
 
         this.imagebyte = imagebyte;
     }
-
-    public void creatClass(String name,String room ,String dep, String id)
+    public void teachrsClass(myClass s)
     {
-        myClass.add(new Class(name,room,dep,id));
-    }public void creatClass(Class temp)
-    {
-        myClass.add(temp);
+        System.out.println("ssda");
+        System.out.println(s.name);
+        teacherOfMyClasses.add(s);
+        System.out.println("ffff"+ teacherOfMyClasses.size());
     }
+
+   /* public void creatTeacherClass(String name,String room ,String dep, String id)
+    {
+        myTeacherClass.add(new myClass(name,room,dep,id));
+    }public void creaTeacherClass(myClass myclass)
+    {
+        myClass baba = myclass;
+        myTeacherClass.add(baba);
+    }*/
 }

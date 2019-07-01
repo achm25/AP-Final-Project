@@ -5,11 +5,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.MenuInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -20,17 +17,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
-import android.widget.Toast;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-
-import com.fxn.cue.Cue;
-import com.fxn.cue.enums.Type;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.lang.reflect.Array;
+import java.lang.ref.WeakReference;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,9 +32,27 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
 ImageView imageView ;
     MyAdapter adapter;
     User user;
+    List<RecyclerItem> listItems = new ArrayList<>();
+    List<RecyclerItem> listItems2 = new ArrayList<>();
     byte[] bitmapdata;
-
+List<RecyclerItem> templist = new ArrayList<>();
     RecyclerView recyclerView;
+
+
+
+    public boolean checkList(RecyclerItem r,List<RecyclerItem> list)
+    {
+        for (int i = 0; i <list.size() ; i++) {
+            if(r == list.get(i))
+            {
+                return false;
+            }
+
+        }
+        return true;
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,11 +60,12 @@ ImageView imageView ;
          user = (User) getIntent().getSerializableExtra("user");
 
 
+
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Classroom");
         toolbar.setSubtitle("powered by Java");
-        List<RecyclerItem> listItems;
+
 
         nv = findViewById(R.id.nav);
 recyclerView = findViewById(R.id.rec_mainactivity);
@@ -64,15 +73,20 @@ recyclerView = findViewById(R.id.rec_mainactivity);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        listItems = new ArrayList<>();
-        listItems.add(new RecyclerItem("salammm" , "asd"));
-        listItems.add(new RecyclerItem("lllalammm" , "asd"));
-        listItems.add(new RecyclerItem("ggggmm" , "asd"));
-        listItems.add(new RecyclerItem("jjjlammm" , "asd"));
-        listItems.add(new RecyclerItem("lllllammm" , "asd"));
+for (int i = 0 ; i<user.teacherOfMyClasses.size() ; i++)
+{
+    System.out.println("  clas :" + user.teacherOfMyClasses.get(i).name);
+}
 
-        adapter = new MyAdapter(listItems,this);
-        recyclerView.setAdapter(adapter);
+
+
+
+
+    System.out.println("shorooooooo");
+    adapter = new MyAdapter(this, user);
+    recyclerView.setAdapter(adapter);
+
+
 
 
         //---------------------------------------------
@@ -175,9 +189,9 @@ if(preman.startSlider())
         int id = item.getItemId();
         if(id == R.id.refresh)
         {
-            /*System.out.println("ffffffff");
-            SocketToPC_mainClass socketToPC_mainClass = new SocketToPC_mainClass();
-            socketToPC_mainClass.execute(user.username,user.password);*/
+            System.out.println("ffffffff");
+            SocketToPC_mainClass socketToPC_mainClass = new SocketToPC_mainClass(MainActivity.this);
+            socketToPC_mainClass.execute(user.username,user.password);
         }
         else if(id == R.id.aboutus)
         {
@@ -211,6 +225,13 @@ if(preman.startSlider())
         ObjectOutputStream objectOutputStream;
         ObjectInputStream objectInputStream;
 
+        WeakReference<MainActivity> activityReference ;
+        SocketToPC_mainClass(MainActivity context)
+        {
+            activityReference = new WeakReference<>(context);
+        }
+
+
         @Override
         protected String doInBackground(String... input) {
             ArrayList<String> arr = new ArrayList<>();
@@ -220,7 +241,7 @@ if(preman.startSlider())
             }
             try {
 
-                System.out.println("shodfffff");
+
                 s = new Socket("192.168.1.5",6800);
                 objectOutputStream = new ObjectOutputStream(s.getOutputStream());
                 objectInputStream= new ObjectInputStream(s.getInputStream());
@@ -228,9 +249,14 @@ if(preman.startSlider())
                 objectOutputStream.flush();
                 objectOutputStream.writeObject(arr);
                 objectOutputStream.flush();
-                User user=(User)objectInputStream.readObject();
+                User updateUser=(User)objectInputStream.readObject();
+                user = updateUser;
                 System.out.println(user.username + "  1");
                 System.out.println(user.password);
+                for (int i = 0; i <user.teacherOfMyClasses.size() ; i++) {
+                    System.out.println(" is : " + user.teacherOfMyClasses.get(i).name);
+
+                }
 
                 objectOutputStream.close();
                 objectInputStream.close();
@@ -244,6 +270,11 @@ if(preman.startSlider())
         }
         @Override
         protected void onPostExecute(String s) {
+
+            MainActivity activity = activityReference.get();
+            adapter = new MyAdapter(activity, user);
+            recyclerView.setAdapter(adapter);
+
 
             super.onPostExecute(s);
 

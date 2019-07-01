@@ -40,7 +40,7 @@ public class JoinClass extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar_joinclass);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Join Class");
+        getSupportActionBar().setTitle("Join myClass");
     }
 
 

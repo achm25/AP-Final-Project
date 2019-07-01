@@ -51,7 +51,7 @@ public class ClassworkFragment extends Fragment {
         });
 
         // 1. get a reference to recyclerView
-        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.rec);
+     /*   RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.rec);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         listItems = new ArrayList<>();
@@ -65,7 +65,7 @@ public class ClassworkFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         //View v = inflater.inflate(R.layout.streamf_fragment, parent, false);
-        setHasOptionsMenu(true);
+        setHasOptionsMenu(true);*/
 
         return rootView;
     }

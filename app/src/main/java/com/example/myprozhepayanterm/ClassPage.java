@@ -31,7 +31,7 @@ public class ClassPage extends AppCompatActivity implements BottomNavigationView
         setContentView(R.layout.activity_class_page);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_classpage);
-        toolbar.setTitle("Class");
+        toolbar.setTitle("myClass");
         setSupportActionBar(toolbar);
 
         loadFragment(fragment1);
@@ -109,7 +109,7 @@ public class ClassPage extends AppCompatActivity implements BottomNavigationView
         setContentView(R.layout.activity_class_page);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_classpage);
-        toolbar.setTitle("Class");
+        toolbar.setTitle("myClass");
         setSupportActionBar(toolbar);
 
         loadFragment(fragment1);
