@@ -1,6 +1,9 @@
 package com.example.myprozhepayanterm;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
@@ -48,11 +51,16 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     List<myClass> arrMyClasses;
     private Context mcontext;
     User user;
-    boolean ischeck = false;
+    boolean ischeck =true;
     public MyAdapter(Context mcontext,User u) {
         this.mcontext = mcontext;
 arrMyClasses = u.teacherOfMyClasses;
         user = u;
+if(u.studentOfMyClasses != null && u.studentOfMyClasses.size() > 0)
+{
+    ArrayList arr2 = u.studentOfMyClasses;
+    arrMyClasses.addAll(arr2);
+}
     }
 
     @NonNull
@@ -69,9 +77,15 @@ arrMyClasses = u.teacherOfMyClasses;
         final myClass myclass = arrMyClasses.get(position) ;
         holder.txt.setText(myclass.name);
         holder.txt2.setText(myclass.room);
+        ischeck = false ;
         for (User karbar:myclass.teacherOfClass) {
             if (karbar.username.equals(user.username))
+            {
+                System.out.println("ka : " + karbar.username);
+                System.out.println("ka1 : " + user.username);
                 ischeck = true ;
+            }
+
         }
         if (ischeck) {
             String text = myclass.userOfClass.size() + " Student" ;
@@ -80,64 +94,111 @@ arrMyClasses = u.teacherOfMyClasses;
         else {
             holder.txt2.setText(myclass.teacherOfClass.get(0).username);
         }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                Intent i = new Intent(v.getContext(),ClassPage.class);
+                i.putExtra("user" , user);
+                i.putExtra("myclass" , myclass);
+                v.getContext().startActivity(i);
+            }
+        });
 
         holder.txt1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PopupMenu pop  = new PopupMenu(mcontext,holder.txt1);
-                pop.inflate(R.menu.menu_for_recyleview);
-                pop.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId())
-                        {
-                            case R.id.delete_rec:
+                boolean checkkardan = false;
+                for (User karbar:myclass.teacherOfClass) {
+                    if (karbar.username.equals(user.username))
+                    {
+                        System.out.println("sa : " + karbar.username);
+                        System.out.println("sa1 : " + user.username);
+                        checkkardan = true ;
+                    }
 
-                                // برا حذف
+                }
+                if(checkkardan)
+                {
+                    PopupMenu pop  = new PopupMenu(mcontext,holder.txt1);
+                    pop.inflate(R.menu.menu_for_recycleview_teacher);
+                    pop.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            switch (item.getItemId())
+                            {
+
+                                case R.id.edit_rec:
+
+                                    // برا حذف
+
+
+                                    break;
+
+
+                            }
+                            return false;
+                        }
+                    });
+                    pop.show();
+                }
+                else
+                {
+                    PopupMenu pop  = new PopupMenu(mcontext,holder.txt1);
+                    pop.inflate(R.menu.menu_for_recyleview);
+                    pop.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            switch (item.getItemId())
+                            {
+
+
+
+                                case R.id.delete_rec:
+
+                                    // برا حذف
 
 /*listItem.remove(position);
 listItem2.remove(position);*/
-String temp1 = myclass.name;
-String temp2 = myclass.id;
+                                    String temp1 = myclass.name;
+                                    String temp2 = myclass.id;
 
-                                for (int i = 0; i <user.teacherOfMyClasses.size() ; i++) {
-                                    if((user.teacherOfMyClasses.get(i).name.equals(temp1)) && (user.teacherOfMyClasses.get(i).id.equals(temp2)))
-                                    {
-                                        int num=i;
-                                        System.out.println("unum1 " +user.teacherOfMyClasses.get(num).name) ;
-                                        for (int j = 0; j <user.teacherOfMyClasses.get(i).teacherOfClass.size() ; j++) {
-                                            if(user.username.equals(user.teacherOfMyClasses.get(i).teacherOfClass.get(j).username) &&user.password.equals(user.teacherOfMyClasses.get(i).teacherOfClass.get(j).password) )
-                                            {
-                                                int num2 = j;
-                                                System.out.println("unum2 "+user.teacherOfMyClasses.get(i).teacherOfClass.get(num2).username);
-                                                user.teacherOfMyClasses.get(i).teacherOfClass.remove(num2);
+                                    for (int i = 0; i <user.teacherOfMyClasses.size() ; i++) {
+                                        if((user.teacherOfMyClasses.get(i).name.equals(temp1)) && (user.teacherOfMyClasses.get(i).id.equals(temp2)))
+                                        {
+                                            int num=i;
+                                            System.out.println("unum1 " +user.teacherOfMyClasses.get(num).name) ;
+                                            for (int j = 0; j <user.teacherOfMyClasses.get(i).teacherOfClass.size() ; j++) {
+                                                if(user.username.equals(user.teacherOfMyClasses.get(i).teacherOfClass.get(j).username) &&user.password.equals(user.teacherOfMyClasses.get(i).teacherOfClass.get(j).password) )
+                                                {
+                                                    int num2 = j;
+                                                    System.out.println("unum2 "+user.teacherOfMyClasses.get(i).teacherOfClass.get(num2).username);
+                                                    user.teacherOfMyClasses.get(i).teacherOfClass.remove(num2);
 
+                                                }
                                             }
+                                            user.teacherOfMyClasses.remove(num);
+                                            break;
                                         }
-                                        user.teacherOfMyClasses.remove(num);
-                                        break;
                                     }
-                                }
 
-                                SocketToPC_remove socketToPC_remove = new SocketToPC_remove();
-                                socketToPC_remove.execute();
+                                    SocketToPC_remove socketToPC_remove = new SocketToPC_remove();
+                                    socketToPC_remove.execute();
 
-notifyDataSetChanged();
+                                    notifyDataSetChanged();
+//--------------
 
-                                break;
-                                case R.id.edit_rec:
+                                    //-------------
+                                    break;
 
-                                // برا حذف
-
-
-                                break;
-
+                            }
+                            return false;
                         }
-                        return false;
-                    }
-                });
-                pop.show();
+                    });
+                    pop.show();
+                }
+
+
             }
         });
     }

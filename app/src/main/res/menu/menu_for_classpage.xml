@@ -2,24 +2,35 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/refresh_classepage_one"
+        android:id="@+id/refresh_classpage"
         android:orderInCategory="100"
+        android:icon="@drawable/ic_refresh_black_24dp"
         android:title="Refresh"
         app:showAsAction="never" />
     <item
-        android:id="@+id/aboutus_classepage_one"
+        android:id="@+id/setting_classpage"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:title="Refresh"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/about_classpage"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_error_black_24dp"
+        app:showAsAction="always"
+        android:title="about" />
+
+    <item
+        android:id="@+id/aboutus_classpage"
         android:orderInCategory="100"
         android:title="About Us"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/notif_classepage_one"
+        android:id="@+id/notif_classpage"
         android:orderInCategory="100"
         android:title="Notifiction"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/classes_classepage_one"
-        android:orderInCategory="100"
-        android:title="Classes"
-        app:showAsAction="never" />
+
 </menu>

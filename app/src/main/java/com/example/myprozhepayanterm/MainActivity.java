@@ -73,10 +73,14 @@ recyclerView = findViewById(R.id.rec_mainactivity);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-for (int i = 0 ; i<user.teacherOfMyClasses.size() ; i++)
-{
-    System.out.println("  clas :" + user.teacherOfMyClasses.get(i).name);
-}
+        if(user.teacherOfMyClasses.size() >0  && user.teacherOfMyClasses!=null)
+        {
+            for (int i = 0 ; i<user.teacherOfMyClasses.size() ; i++)
+            {
+                System.out.println("  clas :" + user.teacherOfMyClasses.get(i).name);
+            }
+        }
+
 
 
 
@@ -137,6 +141,7 @@ if(preman.startSlider())
            startActivity(i);
         } else if (id == R.id.classes) {
             Intent i = new Intent(this,ClassPage.class);
+            i.putExtra("user" , user);
             startActivity(i);
         } else if (id == R.id.Calender) {
             Intent i = new Intent(this,SettingTeacher.class);
@@ -209,6 +214,13 @@ if(preman.startSlider())
 
 
            Intent i = new Intent(getApplicationContext(),CreateClass.class);
+            i.putExtra("user" , user);
+            startActivity(i);
+        }else if(id == R.id.join)
+        {
+
+
+           Intent i = new Intent(getApplicationContext(),JoinClass.class);
             i.putExtra("user" , user);
             startActivity(i);
         }

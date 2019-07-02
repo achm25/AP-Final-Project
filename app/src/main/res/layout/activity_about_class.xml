@@ -38,11 +38,12 @@
                 android:layout_weight="0.3">
 
                 <TextView
+                    android:id="@+id/title_aboutclass"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
-                    android:id="@+id/title_aboutclass"
                     android:text="Math"
+
                     android:textSize="20dp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -80,8 +81,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
-                    android:text="Section : "
-                    android:id="@+id/name_teachersetting"
+                    android:text="Descreption: "
+
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -91,11 +92,12 @@
                 android:layout_weight="0.5">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:text=""
-                    android:textStyle="bold" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                    android:id="@+id/dep_aboutclass"
+                android:text=""
+                android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
 
@@ -112,45 +114,11 @@
                 android:layout_weight="0.5">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:text="Room : "
                     android:id="@+id/room_teachersetting"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:text=""
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.2"
-            tools:ignore="Suspicious0dp">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5">
-
-                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:text="Room : "
-                    android:id="@+id/Descreption_teachersetting"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -163,11 +131,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
+                    android:id="@+id/room_aboutclass"
                     android:text=""
                     android:textStyle="bold" />
             </LinearLayout>
-
         </LinearLayout>
+
+
 
     </LinearLayout>
 </LinearLayout>

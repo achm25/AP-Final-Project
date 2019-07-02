@@ -1,4 +1,4 @@
-package com.example.myprozhepayanterm.Fragment;
+package com.example.myprozhepayanterm;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,11 +23,11 @@ public class PeopleFragment extends Fragment {
         setHasOptionsMenu(true);
         return v;
     }
-
+/*
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_for_classpage_two, menu);
+        inflater.inflate(R.menu.menu_class_classpage_three, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -66,5 +66,5 @@ public class PeopleFragment extends Fragment {
 
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 }

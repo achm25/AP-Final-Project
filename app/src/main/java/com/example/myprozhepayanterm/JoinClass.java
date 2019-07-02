@@ -10,10 +10,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class JoinClass extends AppCompatActivity {
 
@@ -21,12 +23,15 @@ public class JoinClass extends AppCompatActivity {
 
     EditText classcode;
     Toolbar toolbar;
+    User user;
+    String code;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join_class);
+        user = (User) getIntent().getSerializableExtra("user");
 
-        classcode = findViewById(R.id.username_text);
+        classcode = findViewById(R.id.classcode_joinclass);
         classcode.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -41,6 +46,7 @@ public class JoinClass extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar_joinclass);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Join myClass");
+
     }
 
 
@@ -69,7 +75,9 @@ public class JoinClass extends AppCompatActivity {
         }
         else if(id == R.id.join_joinclass)
         {
-
+            code = classcode.getText().toString();
+            SocketToPC_join socketToPC_join =new SocketToPC_join();
+            socketToPC_join.execute();
 
             //Toast.makeText(getApplicationContext(),"google feedback",Toast.LENGTH_LONG);
         }else if(id == R.id.cancle_joinclass)
@@ -82,5 +90,53 @@ public class JoinClass extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
+
+    private class SocketToPC_join extends AsyncTask<Void,Void,String> {
+        Socket s;
+        ObjectOutputStream objectOutputStream;
+        ObjectInputStream objectInputStream;
+
+        @Override
+        protected String doInBackground(Void... input) {
+
+            try {
+
+                System.out.println("shod");
+                s = new Socket("192.168.1.5",6800);
+                objectOutputStream = new ObjectOutputStream(s.getOutputStream());
+                objectInputStream= new ObjectInputStream(s.getInputStream());
+                objectOutputStream.writeObject("join");
+                objectOutputStream.flush();
+                objectOutputStream.writeObject(user);
+                objectOutputStream.flush();
+                objectOutputStream.writeObject(code);
+                objectOutputStream.flush();
+
+
+                objectOutputStream.close();
+                objectInputStream.close();
+                s.close();
+            }
+            catch (Exception e)
+            {
+
+            }
+            return null;
+        }
+        @Override
+        protected void onPostExecute(String s) {
+
+            super.onPostExecute(s);
+
+
+
+        }
+
+    }
+
+
 
 }

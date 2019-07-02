@@ -1,4 +1,4 @@
-package com.example.myprozhepayanterm.Fragment;
+package com.example.myprozhepayanterm;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,43 +30,7 @@ public class StreamFragment extends Fragment {
     }
 
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
-        inflater.inflate(R.menu.menu_for_classpage, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-
-        int id = item.getItemId();
-
-         if(id == R.id.refresh_classepage_one)
-        {
-
-
-
-        }else if(id == R.id.aboutus_classepage_one)
-        {
-
-
-
-        }else if(id == R.id.notif_classepage_one)
-        {
-
-
-
-        }else if(id == R.id.classes_classepage_one)
-        {
-
-
-
-        }
-
-
-        return super.onOptionsItemSelected(item);
-    }
 }
 
 

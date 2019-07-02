@@ -89,12 +89,16 @@ android:elevation="16dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:text=""
-                    android:textStyle="bold" />
+
+
+                <EditText
+                    android:id="@+id/myname_teachersetting"
+                    android:layout_width="8dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    tools:ignore="DuplicateIds" />
             </LinearLayout>
         </LinearLayout>
 
@@ -124,12 +128,14 @@ android:elevation="16dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:text=""
-                    android:textStyle="bold" />
+                <EditText
+                    android:id="@+id/myroom_teachersetting"
+                    android:layout_width="8dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    tools:ignore="DuplicateIds" />
             </LinearLayout>
         </LinearLayout>
 
@@ -158,12 +164,14 @@ android:elevation="16dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:text=""
-                    android:textStyle="bold" />
+                <EditText
+                    android:id="@+id/mydep_teachersetting"
+                    android:layout_width="8dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    tools:ignore="DuplicateIds" />
             </LinearLayout>
 
         </LinearLayout>
@@ -189,6 +197,7 @@ android:elevation="16dp"
                 android:layout_height="match_parent"
                 android:text="Class code : "
                 android:textStyle="bold"
+                android:id="@+id/code_settingteacher"
                 android:layout_marginLeft="10dp"/>
         </LinearLayout>
         <LinearLayout

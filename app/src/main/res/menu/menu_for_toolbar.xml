@@ -7,7 +7,7 @@
         android:title="add"
         app:showAsAction="always">
         <menu>
-            <item android:id="@+id/action_sort_size"
+            <item android:id="@+id/join"
                 android:icon="@drawable/ic_done_black_24dp"
                 android:title="join" />
             <item android:id="@+id/create"

@@ -1,4 +1,4 @@
-package com.example.myprozhepayanterm.Fragment;
+package com.example.myprozhepayanterm;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -40,16 +40,19 @@ public class ClassworkFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState)
     {
 
-        View rootView = inflater.inflate(R.layout.classwork_fragment, parent, false);
-
-        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab_classworkfragment);
+     //   View rootView = inflater.inflate(R.layout.classwork_fragment, parent, false);
+        // return rootView;
+//=========================================================================
+        View v = inflater.inflate(R.layout.classwork_fragment, parent, false) ;
+       /* FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.fab_classworkfragment);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 editclass(getActivity());
             }
         });
-
+*/
+       //=========================================================================
         // 1. get a reference to recyclerView
      /*   RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.rec);
         recyclerView.setHasFixedSize(true);
@@ -67,54 +70,58 @@ public class ClassworkFragment extends Fragment {
         //View v = inflater.inflate(R.layout.streamf_fragment, parent, false);
         setHasOptionsMenu(true);*/
 
-        return rootView;
+        return v;
     }
 
 
+
+
+
+/*
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
         inflater.inflate(R.menu.menu_class_classpage_three, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
 
+
+
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
 
         int id = item.getItemId();
-        if(id == R.id.refresh_classepage_three)
-        {
-
-        }
-        else if(id == R.id.aboutus_classepage_three)
-        {
-
-
-            //Toast.makeText(getApplicationContext(),"google feedback",Toast.LENGTH_LONG);
-        }else if(id == R.id.notif_classepage_three)
-        {
-
-
-            //Toast.makeText(getApplicationContext(),"google feedback",Toast.LENGTH_LONG);
-        }else if(id == R.id.classes_classepage_three)
-        {
-
-
-            //Toast.makeText(getApplicationContext(),"google feedback",Toast.LENGTH_LONG);
-        }
-else if(id == R.id.setting_classepage_three)
+        if(id == R.id.refresh_classepage_two)
         {
             // نمونه ای از استفاده از اینتنت در فراگمنت
             Intent intent = new Intent(getActivity(), SettingTeacher.class);
             startActivity(intent);
         }
+        else if(id == R.id.aboutus_classepage_two)
+        {
+
+
+
+        }else if(id == R.id.notif_classepage_two)
+        {
+
+
+
+        }else if(id == R.id.classes_classepage_two)
+        {
+
+
+
+        }
+
 
         return super.onOptionsItemSelected(item);
     }
+
+*/
 
 
 
