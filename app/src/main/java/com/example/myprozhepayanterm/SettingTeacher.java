@@ -132,7 +132,7 @@ s.execute();
             try {
 
 
-                s = new Socket("192.168.1.5",6800);
+                s = new Socket("10.0.2.2",6800);
                 objectOutputStream = new ObjectOutputStream(s.getOutputStream());
                 objectInputStream= new ObjectInputStream(s.getInputStream());
                 objectOutputStream.writeObject("setting");

@@ -11,7 +11,7 @@ public class myClass implements Serializable {
     String id;
     ArrayList<User> teacherOfClass = new ArrayList<>();
     ArrayList<User> userOfClass = new ArrayList<>();
-    ArrayList<myClass> homeworkOfClass = new ArrayList<>();
+
     boolean studentCanComment = false;
     public myClass(String name, String room, String dep, String id, User user) {
         this.name = name;

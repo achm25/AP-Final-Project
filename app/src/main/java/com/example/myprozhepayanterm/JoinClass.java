@@ -105,11 +105,12 @@ public class JoinClass extends AppCompatActivity {
             try {
 
                 System.out.println("shod");
-                s = new Socket("192.168.1.5",6800);
+                s = new Socket("10.0.2.2",6800);
                 objectOutputStream = new ObjectOutputStream(s.getOutputStream());
                 objectInputStream= new ObjectInputStream(s.getInputStream());
                 objectOutputStream.writeObject("join");
                 objectOutputStream.flush();
+
                 objectOutputStream.writeObject(user);
                 objectOutputStream.flush();
                 objectOutputStream.writeObject(code);

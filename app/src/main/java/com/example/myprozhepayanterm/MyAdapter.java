@@ -163,24 +163,6 @@ listItem2.remove(position);*/
                                     String temp1 = myclass.name;
                                     String temp2 = myclass.id;
 
-                                    for (int i = 0; i <user.teacherOfMyClasses.size() ; i++) {
-                                        if((user.teacherOfMyClasses.get(i).name.equals(temp1)) && (user.teacherOfMyClasses.get(i).id.equals(temp2)))
-                                        {
-                                            int num=i;
-                                            System.out.println("unum1 " +user.teacherOfMyClasses.get(num).name) ;
-                                            for (int j = 0; j <user.teacherOfMyClasses.get(i).teacherOfClass.size() ; j++) {
-                                                if(user.username.equals(user.teacherOfMyClasses.get(i).teacherOfClass.get(j).username) &&user.password.equals(user.teacherOfMyClasses.get(i).teacherOfClass.get(j).password) )
-                                                {
-                                                    int num2 = j;
-                                                    System.out.println("unum2 "+user.teacherOfMyClasses.get(i).teacherOfClass.get(num2).username);
-                                                    user.teacherOfMyClasses.get(i).teacherOfClass.remove(num2);
-
-                                                }
-                                            }
-                                            user.teacherOfMyClasses.remove(num);
-                                            break;
-                                        }
-                                    }
 
                                     SocketToPC_remove socketToPC_remove = new SocketToPC_remove();
                                     socketToPC_remove.execute();
@@ -223,7 +205,7 @@ listItem2.remove(position);*/
             try {
 
                 System.out.println("shod");
-                s = new Socket("192.168.1.5",6800);
+                s = new Socket("10.0.2.2",6800);
                 objectOutputStream = new ObjectOutputStream(s.getOutputStream());
                 objectInputStream= new ObjectInputStream(s.getInputStream());
                 objectOutputStream.writeObject("remove");

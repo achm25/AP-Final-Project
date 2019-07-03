@@ -115,9 +115,9 @@ socketToPC_creatClass.execute();
 
 
 
-    Intent i = new Intent(getApplicationContext(), MainActivity.class);
+   /* Intent i = new Intent(getApplicationContext(), MainActivity.class);
     i.putExtra("user" , user);
-    startActivity(i);
+    startActivity(i);*/
 }
 else
 {
@@ -150,7 +150,7 @@ else
             try {
 
                 System.out.println("shod");
-                s = new Socket("192.168.1.5",6800);
+                s = new Socket("10.0.2.2",6800);
                 objectOutputStream = new ObjectOutputStream(s.getOutputStream());
                 objectInputStream= new ObjectInputStream(s.getInputStream());
                 objectOutputStream.writeObject("createClass");
@@ -167,15 +167,18 @@ temp.id = shomareClass;
 
 
                ArrayList<myClass> arr = new ArrayList<myClass>();
-               arr.addAll(arr1);
+               arr = user.teacherOfMyClasses;
+
                 for (int i = 0 ; i<arr.size() ; i++)
                 {
                     System.out.println("  clasarr :" + arr.get(i).name);
                 }
                 arr.add(temp);
                 user.teacherOfMyClasses =arr;
-
-                System.out.println(user.teacherOfMyClasses.get(0).name);
+                for (int i = 0 ; i<arr.size() ; i++)
+                {
+                    System.out.println("  clasarr2 :" + arr.get(i).name);
+                }
                 objectOutputStream.writeObject(user);
                 objectOutputStream.flush();
 
