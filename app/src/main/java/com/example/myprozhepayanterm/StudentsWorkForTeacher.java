@@ -2,6 +2,7 @@ package com.example.myprozhepayanterm;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -10,85 +11,69 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-
-import android.support.annotation.NonNull;
-
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.ref.WeakReference;
 import java.net.Socket;
 import java.util.ArrayList;
 
-
-public class ClassPage extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class StudentsWorkForTeacher extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     Toolbar toolbar;
-    Fragment fragment1 = new StreamFragment();
-    Fragment fragment2 = new PeopleFragment();
-    Fragment fragment3 = new MyClassWorkFragment();
-
-    boolean isTeacher = false ;
+    Fragment fragment1 = new InstructionsFragment();
+    Fragment fragment2 = new StudentworkFragment();
     myClass myclass;
     User user;
+    Homework homework;
+boolean isTeacher = true;
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_class_page);
+        setContentView(R.layout.activity_students_work_for_teacher);
         user = (User) getIntent().getSerializableExtra("user");
         myclass = (myClass)getIntent().getSerializableExtra("myclass");
-
+        homework = (Homework) getIntent().getSerializableExtra("homework");
 
         Bundle bundle = new Bundle();
         bundle.putSerializable("user", user);
         bundle.putSerializable("myclass", myclass);
-        fragment3.setArguments(bundle);
-fragment2.setArguments(bundle);
+        bundle.putSerializable("homework", homework);
+        fragment1.setArguments(bundle);
+        fragment2.setArguments(bundle);
 
-
-
-
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_classpage);
+        toolbar = findViewById(R.id.toolbar_teachermanagment);
         toolbar.setTitle("myClass");
         setSupportActionBar(toolbar);
-
-        loadFragment(fragment3);
-
-        BottomNavigationView navigation = findViewById(R.id.navigation_classpage);
+        loadFragment(fragment1);
+        BottomNavigationView navigation = findViewById(R.id.navigation_teachermanagment);
         navigation.setOnNavigationItemSelectedListener(this);
 
-
-
-
     }
-
-
-//دو حالتی بودن رو با ایف هندل بشه
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         Fragment fragment = null;
 
         switch (item.getItemId()) {
-            case R.id.navigation_one:
+            case R.id.navigation_one_teachermanagment:
 
                 fragment = fragment1;
                 //fragment = new StreamFragment();
                 break;
 
-            case R.id.navigation_two:
+            case R.id.navigation_two_teachermanagment:
 
-             fragment = fragment2;
+                fragment = fragment2;
 
-              // fragment = new PeopleFragment();
+                // fragment = new PeopleFragment();
 
                 break;
 
-            case R.id.navigation_three:
 
-                fragment =fragment3;
-
-                //fragment = new ClassworkFragment();
-                break;
 
 
         }
@@ -96,12 +81,13 @@ fragment2.setArguments(bundle);
         return loadFragment(fragment);
     }
 
+
     private boolean loadFragment(Fragment fragment) {
         //switching fragment
         if (fragment != null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragment_container_classpage, fragment)
+                    .replace(R.id.fragment_container_teachermanagment, fragment)
                     .commit();
 
             return true;
@@ -110,14 +96,8 @@ fragment2.setArguments(bundle);
     }
 
 
-//-------------------------------------------------------------------------------------------------------
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_for_classpage ,menu);
-        return true;
-    }
+
 
 
 
@@ -140,42 +120,39 @@ fragment2.setArguments(bundle);
     }
 
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_for_teachermanagment ,menu);
+        return true;
+    }
+
+
+
+
+
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
-        if(id == R.id.refresh_classpage)
+        if(id == R.id.refresh_teachermanagment)
         {
-            SocketToPC_refresh s = new SocketToPC_refresh(ClassPage.this);
-
-          s.execute(user.username,user.password);
+SocketToPC_teachermanagment s = new SocketToPC_teachermanagment(StudentsWorkForTeacher.this);
+s.execute();
         }
-        else if(id == R.id.aboutus_classpage)
+        else if(id == R.id.aboutus_teachermanagment)
         {
 
 
-        }else if(id == R.id.notif_classpage)
+        }else if(id == R.id.notif_teachermanagment)
         {
 
 
 
-        }else if(id == R.id.setting_classpage)
-        {
-
-            Intent i = new Intent(this,SettingTeacher.class);
-            i.putExtra("user" , user);
-            i.putExtra("myclass" , myclass);
-            startActivity(i);
-
-        }else if(id == R.id.about_classpage)
-        {
-            Intent i = new Intent(this,AboutClass.class);
-
-            i.putExtra("myclass" , myclass);
-            startActivity(i);
-
-
-        }else if(id == R.id.aboutus_classpage)
+        }else if(id == R.id.aboutus_teachermanagment)
         {
 
 
@@ -185,37 +162,37 @@ fragment2.setArguments(bundle);
 
         return super.onOptionsItemSelected(item);
     }
-    //-------------------------------------------------------------------------------------------------------
 
 
-    private class SocketToPC_refresh extends AsyncTask<String,Void,String> {
+
+
+
+
+
+    private class SocketToPC_teachermanagment extends AsyncTask<Void,Void,String> {
         Socket s;
         ObjectOutputStream objectOutputStream;
         ObjectInputStream objectInputStream;
 
-        WeakReference<ClassPage> activityReference ;
-        SocketToPC_refresh(ClassPage context)
+        WeakReference<StudentsWorkForTeacher> activityReference ;
+        SocketToPC_teachermanagment(StudentsWorkForTeacher context)
         {
             activityReference = new WeakReference<>(context);
         }
 
 
         @Override
-        protected String doInBackground(String... input) {
-            ArrayList<String> arr = new ArrayList<>();
-            for(String str : input)
-            {
-                arr.add(str);
-            }
+        protected String doInBackground(Void... input) {
+
             try {
 
 
                 s = new Socket("10.0.2.2",6800);
                 objectOutputStream = new ObjectOutputStream(s.getOutputStream());
                 objectInputStream= new ObjectInputStream(s.getInputStream());
-                objectOutputStream.writeObject("refresh");
+                objectOutputStream.writeObject("teachermanagment_refresh");
                 objectOutputStream.flush();
-                objectOutputStream.writeObject(arr);
+                objectOutputStream.writeObject(user);
                 objectOutputStream.flush();
                 User updateUser=(User)objectInputStream.readObject();
                 user = updateUser;
@@ -232,7 +209,7 @@ fragment2.setArguments(bundle);
         @Override
         protected void onPostExecute(String s) {
 
-            ClassPage activity = activityReference.get();
+            StudentsWorkForTeacher activity = activityReference.get();
 
 
 
@@ -243,6 +220,9 @@ fragment2.setArguments(bundle);
 
     }
 
+
+
+
+
+
 }
-
-

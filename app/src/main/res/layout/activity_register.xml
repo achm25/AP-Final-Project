@@ -44,7 +44,7 @@ android:id="@+id/aaa"
             android:layout_marginBottom="5dp"
             android:background="#808080"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/emailEditText"
+
             app:layout_constraintStart_toEndOf="@+id/usernameImageView"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -116,8 +116,8 @@ android:id="@+id/aaa"
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="145dp"

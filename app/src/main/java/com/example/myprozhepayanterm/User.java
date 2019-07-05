@@ -14,6 +14,7 @@ public class User implements Serializable {
     ArrayList<myClass> teacherOfMyClasses = new ArrayList<>();
     ArrayList<Homework> homeworksTecher = new ArrayList<>();
     ArrayList<Homework> homeworksStudent = new ArrayList<>();
+    ArrayList<AnswerOfHomework> myAnswer = new ArrayList<>();
 
     public User(String username, String password) {
         this.username = username;

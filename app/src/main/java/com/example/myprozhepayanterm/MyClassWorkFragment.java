@@ -5,25 +5,58 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 
 
-public class MyClassWorkFragment extends Fragment {
+public class MyClassWorkFragment extends Fragment  {
     User user;
    myClass myclass;
+MyHomeworkAdapter adapter;
+    RecyclerView recyclerView;
+
 
     boolean isStudent = true ;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState)
     {
         View v = inflater.inflate(R.layout.classwork_fragment, parent, false);
+
+
+
+
+
         user = (User) getArguments().getSerializable("user");
         myclass = (myClass) getArguments().getSerializable("myclass");
+        System.out.println("okok : " + myclass.name);
+
+
+        recyclerView = v.findViewById(R.id.rec_homework);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        if(myclass.teachershomework != null)
+        {
+            if(myclass.teachershomework.size() >0)
+            {
+                System.out.println("kkkkkkk : " + myclass.teachershomework.size());
+                adapter = new MyHomeworkAdapter(getContext(),myclass);
+                recyclerView.setAdapter(adapter);
+            }
+        }
+
+
+
 
         for (User karbar:myclass.teacherOfClass) {
             if (karbar.username.equals(user.username))
@@ -72,5 +105,23 @@ public class MyClassWorkFragment extends Fragment {
         });
         builder.show();
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

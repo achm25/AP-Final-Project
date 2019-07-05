@@ -73,13 +73,7 @@ recyclerView = findViewById(R.id.rec_mainactivity);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        if(user.teacherOfMyClasses.size() >0  && user.teacherOfMyClasses!=null)
-        {
-            for (int i = 0 ; i<user.teacherOfMyClasses.size() ; i++)
-            {
-                System.out.println("  clas :" + user.teacherOfMyClasses.get(i).name);
-            }
-        }
+
 
 
 
@@ -87,8 +81,16 @@ recyclerView = findViewById(R.id.rec_mainactivity);
 
 
     System.out.println("shorooooooo");
-    adapter = new MyAdapter(this, user);
-    recyclerView.setAdapter(adapter);
+    if(user.teacherOfMyClasses != null)
+    {
+        if (user.teacherOfMyClasses.size()>0)
+        {
+            adapter = new MyAdapter(this, user);
+            recyclerView.setAdapter(adapter);
+        }
+
+    }
+
 
 
 

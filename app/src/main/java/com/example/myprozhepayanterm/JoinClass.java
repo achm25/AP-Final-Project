@@ -79,10 +79,11 @@ public class JoinClass extends AppCompatActivity {
             SocketToPC_join socketToPC_join =new SocketToPC_join();
             socketToPC_join.execute();
 
+
             //Toast.makeText(getApplicationContext(),"google feedback",Toast.LENGTH_LONG);
         }else if(id == R.id.cancle_joinclass)
         {
-
+            onBackPressed();
 
             //Toast.makeText(getApplicationContext(),"google feedback",Toast.LENGTH_LONG);
         }

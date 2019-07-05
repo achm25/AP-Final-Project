@@ -18,5 +18,5 @@
         android:icon="@drawable/ic_link_black_24dp"
         android:title="link"
         app:showAsAction="always"/>
-    =
+
 </menu>

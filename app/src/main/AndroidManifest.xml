@@ -13,7 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddHomework"></activity>
+        <activity android:name=".StudentDetail"></activity>
+        <activity android:name=".StudentPage" />
+        <activity android:name=".StudentsWorkForTeacher" />
+        <activity android:name=".AddHomework" />
         <activity android:name=".AboutClass" />
         <activity android:name=".SettingTeacher" />
         <activity android:name=".ClassPage" />

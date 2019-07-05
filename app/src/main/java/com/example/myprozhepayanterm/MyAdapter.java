@@ -101,6 +101,7 @@ if(u.studentOfMyClasses != null && u.studentOfMyClasses.size() > 0)
                 Intent i = new Intent(v.getContext(),ClassPage.class);
                 i.putExtra("user" , user);
                 i.putExtra("myclass" , myclass);
+                System.out.println("llll ::: "+myclass.name);
                 v.getContext().startActivity(i);
             }
         });
@@ -162,8 +163,43 @@ if(u.studentOfMyClasses != null && u.studentOfMyClasses.size() > 0)
 listItem2.remove(position);*/
                                     String temp1 = myclass.name;
                                     String temp2 = myclass.id;
+                                    for (int i = 0; i < arrMyClasses.size(); i++) {
+                                        System.out.println("arrclass11111 : " + arrMyClasses.get(i).name);
+                                    }
+
+                                    for (int i = 0; i < arrMyClasses.size() ; i++) {
+                                        if(arrMyClasses.get(i).id.equals(temp2))
+                                        {
+                                            arrMyClasses.remove(i);
+                                            System.out.println("delete fuck1");
+                                            break;
+                                        }
+                                    }
 
 
+                                    for (int i = 0; i <user.studentOfMyClasses.size() ; i++) {
+                                        for (int j = 0; j <user.studentOfMyClasses.get(i).userOfClass.size() ; j++) {
+                                            if(user.studentOfMyClasses.get(i).userOfClass.get(j).username.equals(user.username) && user.studentOfMyClasses.get(i).userOfClass.get(j).password.equals(user.password))
+                                            {
+                                                System.out.println("delete fuck 1.5");
+                                                user.studentOfMyClasses.get(i).userOfClass.remove(j);
+                                                break;
+                                            }
+                                        }
+
+                                    }
+                                    for (int i = 0; i <user.studentOfMyClasses.size() ; i++) {
+                                        if(user.studentOfMyClasses.get(i).id.equals(temp2))
+                                        {
+                                            user.studentOfMyClasses.remove(i);
+                                            System.out.println("delete fuck2");
+                                            break;
+                                        }
+                                    }
+                                    for (int i = 0; i < arrMyClasses.size(); i++) {
+                                        System.out.println("arrclass22222 : " + arrMyClasses.get(i).name);
+                                    }
+                                    
                                     SocketToPC_remove socketToPC_remove = new SocketToPC_remove();
                                     socketToPC_remove.execute();
 

@@ -166,6 +166,7 @@ password = passText.getText().toString();
 
                         int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                         String picturePath = cursor.getString(columnIndex);
+                        imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
                         cursor.close();
 
                         try {
