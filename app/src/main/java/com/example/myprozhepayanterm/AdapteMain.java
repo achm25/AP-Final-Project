@@ -1,84 +1,71 @@
 package com.example.myprozhepayanterm;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
-import java.util.ArrayList;
 import java.util.List;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
-
-
-    static class  ViewHolder extends RecyclerView.ViewHolder {
-        TextView txt;
-        TextView txt2;
-
-        ImageButton txt1;
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            txt = itemView.findViewById(R.id.txt_adapter);
-            txt2 = itemView.findViewById(R.id.txt2_adapter);
-
-            txt1 = itemView.findViewById(R.id.imageButton_rec);
-
-        }
-    }
+public class AdapteMain extends RecyclerView.Adapter<AdapteMain.ViewHolderMain> {
 
 
 
 
-
-
-    /*private List<RecyclerItem> listItem;
-    private List<RecyclerItem> listItem2;*/
-    List<myClass> arrMyClasses;
+    List<User> arrUser;
     private Context mcontext;
     User user;
+    myClass myclass;
+    Homework homework;
     boolean ischeck =true;
-    public MyAdapter(Context mcontext,User u) {
-        this.mcontext = mcontext;
-arrMyClasses = u.teacherOfMyClasses;
-        user = u;
+    List<myClass> arrMyClasses;
 
-        List<myClass> arr2 = u.studentOfMyClasses;
-    arrMyClasses.addAll(arr2);
+    public AdapteMain(Context mcontext, User user) {
+        this.mcontext = mcontext;
+
+        this.user = user;
+
+        this.mcontext = mcontext;
+        arrMyClasses = user.teacherOfMyClasses;
+
+
+        List<myClass> arr2 = user.studentOfMyClasses;
+        arrMyClasses.addAll(arr2);
 
         for (int i = 0; i <arrMyClasses.size() ; i++) {
-            System.out.println("adapterArr : " + arrMyClasses.get(i).name);
+            System.out.println("adapterArr99 : " + arrMyClasses.get(i).name);
         }
 
+
+
     }
+
+
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AdapteMain.ViewHolderMain onCreateViewHolder(@NonNull ViewGroup parent, int i) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycleview_item, parent, false);
-
-        ViewHolder pvh = new ViewHolder(v);
-        return  pvh;
+        AdapteMain.ViewHolderMain pvh = new AdapteMain.ViewHolderMain(v);
+        return pvh;
     }
 
     @Override
-    public void onBindViewHolder(final MyAdapter.ViewHolder holder, final int position) {
-        System.out.println("injast 4");
+    public void onBindViewHolder(@NonNull final AdapteMain.ViewHolderMain holder, int position) {
+        System.out.println("aaaaaaaa");
         final myClass myclass = arrMyClasses.get(position) ;
+        final String temp = (String) myclass.name;
         holder.txt.setText(myclass.name);
         holder.txt2.setText(myclass.room);
         ischeck = false ;
@@ -129,6 +116,7 @@ arrMyClasses = u.teacherOfMyClasses;
                 }
                 if(checkkardan)
                 {
+
                     PopupMenu pop  = new PopupMenu(mcontext,holder.txt1);
                     pop.inflate(R.menu.menu_for_recycleview_teacher);
                     pop.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -211,9 +199,6 @@ listItem2.remove(position);*/
                                         System.out.println("arrclass22222 : " + arrMyClasses.get(i).name);
                                     }
 
-                                    SocketToPC_remove socketToPC_remove = new SocketToPC_remove();
-                                    socketToPC_remove.execute();
-
                                     notifyDataSetChanged();
 //--------------
 
@@ -232,52 +217,51 @@ listItem2.remove(position);*/
         });
     }
 
-    @Override
+
+
+
+
+
+
+
+
+
+
+
+
+
     public int getItemCount() {
-      //  return listItem.size();
+        return arrMyClasses.size();
+    }
+//------------
 
-       return arrMyClasses.size();
+    static class  ViewHolderMain extends RecyclerView.ViewHolder {
+        TextView txt;
+        TextView txt2;
 
+        ImageButton txt1;
+
+
+        public ViewHolderMain(@NonNull View itemView) {
+            super(itemView);
+            txt = itemView.findViewById(R.id.txt_adapter);
+            txt2 = itemView.findViewById(R.id.txt2_adapter);
+
+            txt1 = itemView.findViewById(R.id.imageButton_rec);
+
+        }
     }
 
 
-    private class SocketToPC_remove extends AsyncTask<Void,Void,String> {
-        Socket s;
-        ObjectOutputStream objectOutputStream;
-        ObjectInputStream objectInputStream;
-
-        @Override
-        protected String doInBackground(Void... input) {
-
-            try {
-
-                System.out.println("shod");
-                s = new Socket("10.0.2.2",6800);
-                objectOutputStream = new ObjectOutputStream(s.getOutputStream());
-                objectInputStream= new ObjectInputStream(s.getInputStream());
-                objectOutputStream.writeObject("remove");
-                objectOutputStream.flush();
-                objectOutputStream.writeObject(user);
-                objectOutputStream.flush();
-                System.out.println("zzzzz");
-                objectOutputStream.close();
-                objectInputStream.close();
-                s.close();
-            }
-            catch (Exception e)
-            {
-
-            }
-            return null;
-        }
-        @Override
-        protected void onPostExecute(String s) {
-
-            super.onPostExecute(s);
 
 
 
-        }
 
-    }
+
+
+
+
+
+
+
 }

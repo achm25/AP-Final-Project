@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,6 +25,10 @@ import android.widget.Toast;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.lang.ref.WeakReference;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -111,21 +116,10 @@ ArrayList<AnswerOfHomework> arr = new ArrayList<AnswerOfHomework>();
             }
             arr2.add(answer);
             user.myAnswer = arr2;
-Integer tempnumber1 = null;
-            for (int i = 0; i <myclass.studentshomework.size() ; i++) {
-                if(homework.classID.equals(myclass.id))
-                {
-                    tempnumber1 =i;
-                    break;
-                }
-            }
-
-            if(tempnumber1 != null)
-            {
-                myclass.studentshomework.set(tempnumber1,homework);
-            }
 
 
+SocketToPC_studentpage socketToPC_studentpage = new SocketToPC_studentpage(StudentPage.this);
+socketToPC_studentpage.execute();
 
 
             return true;
@@ -224,7 +218,57 @@ Integer tempnumber1 = null;
     }
 
 
+    private class SocketToPC_studentpage extends AsyncTask<Void,Void,String> {
+        Socket s;
+        ObjectOutputStream objectOutputStream;
+        ObjectInputStream objectInputStream;
 
+        WeakReference<StudentPage> activityReference ;
+        SocketToPC_studentpage(StudentPage context)
+        {
+            activityReference = new WeakReference<>(context);
+        }
+
+
+        @Override
+        protected String doInBackground(Void... input) {
+
+            try {
+
+
+                s = new Socket("10.0.2.2",6800);
+                objectOutputStream = new ObjectOutputStream(s.getOutputStream());
+                objectInputStream= new ObjectInputStream(s.getInputStream());
+                objectOutputStream.writeObject("studentpage");
+                objectOutputStream.flush();
+                objectOutputStream.writeObject(user);
+                objectOutputStream.flush();
+
+
+
+                objectOutputStream.close();
+                objectInputStream.close();
+                s.close();
+            }
+            catch (Exception e)
+            {
+
+            }
+            return null;
+        }
+        @Override
+        protected void onPostExecute(String s) {
+
+            StudentPage activity = activityReference.get();
+
+
+
+            super.onPostExecute(s);
+
+
+        }
+
+    }
 
 
 

@@ -10,6 +10,7 @@ public class AnswerOfHomework implements Serializable {
     String nameOfUser;
     String answer;
     String idAnswer;
+    String teacherScore = "No Score";
 
     public AnswerOfHomework(byte[] imagebyte, String classId, String nameOfUser, String idAnswer) {
         this.imagebyte = imagebyte;

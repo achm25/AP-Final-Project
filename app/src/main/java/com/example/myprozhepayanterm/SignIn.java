@@ -79,7 +79,7 @@ User user;
                 check2=(boolean) objectInputStream.readObject();
                 imgbyte = (byte[])objectInputStream.readObject();
 
-                System.out.println(imgbyte);
+
 
                 user = (User)objectInputStream.readObject();
 

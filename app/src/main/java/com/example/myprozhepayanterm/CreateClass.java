@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.ref.WeakReference;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -36,14 +37,19 @@ User user;
         dep = findViewById(R.id.description_creatclass);
 
         user = (User) getIntent().getSerializableExtra("user");
+        System.out.println("user : " + user.username);
         if(user.teacherOfMyClasses != null)
         {
             System.out.println("null nist");
             arr1.addAll(user.teacherOfMyClasses);
-            for (int i = 0 ; i<arr1.size() ; i++)
+            if (arr1.size()>0)
             {
-                System.out.println("  arr1 :" + arr1.get(i).name);
+                for (int i = 0 ; i<arr1.size() ; i++)
+                {
+                    System.out.println("  arr1 :" + arr1.get(i).name);
+                }
             }
+
         }
 
         name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -100,8 +106,8 @@ User user;
 if((room.getText().toString().trim().length() >= 1) && (name.getText().toString().trim().length() >= 1))
 {
 
-    Integer num = 10;
-     shomareClass = num.toString();
+
+     shomareClass = "No number";
    temp = new myClass(name.getText().toString(),room.getText().toString(),dep.getText().toString(),shomareClass,user);
 
 
@@ -110,7 +116,7 @@ if((room.getText().toString().trim().length() >= 1) && (name.getText().toString(
 
    /* User  baba = user;
             baba.arrClass[0]=(new myClass(name.getText().toString(),room.getText().toString(),dep.getText().toString(),shomareClass,user));*/
-SocketToPC_creatClass socketToPC_creatClass = new SocketToPC_creatClass();
+SocketToPC_creatClass socketToPC_creatClass = new SocketToPC_creatClass(CreateClass.this);
 socketToPC_creatClass.execute();
 
 
@@ -144,6 +150,13 @@ else
         ObjectOutputStream objectOutputStream;
         ObjectInputStream objectInputStream;
 
+       WeakReference<CreateClass> activityReference ;
+       SocketToPC_creatClass(CreateClass context)
+       {
+           activityReference = new WeakReference<>(context);
+       }
+
+
         @Override
         protected String doInBackground(Void... input) {
 
@@ -162,22 +175,24 @@ temp.id = shomareClass;
                 System.out.println("te : " + temp.id);
 
 
-
-
-
-
+                System.out.println("1111");
                ArrayList<myClass> arr = new ArrayList<myClass>();
                arr = user.teacherOfMyClasses;
-
-                for (int i = 0 ; i<arr.size() ; i++)
+                System.out.println("2222");
+                if(arr.isEmpty() == false)
                 {
-                    System.out.println("  clasarr :" + arr.get(i).name);
+                    for (int i = 0 ; i<arr.size() ; i++)
+                    {
+                        System.out.println("  clasarr :" + arr.get(i).name);
+                    }
                 }
+
                 arr.add(temp);
+                System.out.println("3333");
                 user.teacherOfMyClasses =arr;
                 for (int i = 0 ; i<arr.size() ; i++)
                 {
-                    System.out.println("  clasarr2 :" + arr.get(i).name);
+                    System.out.println("  clasarr2 :" + arr.get(i).name + arr.get(i).id);
                 }
                 objectOutputStream.writeObject(user);
                 objectOutputStream.flush();
@@ -194,9 +209,9 @@ temp.id = shomareClass;
         }
         @Override
         protected void onPostExecute(String s) {
-
+            CreateClass activity = activityReference.get();
             super.onPostExecute(s);
-            Toast.makeText(getApplicationContext(),"موفق",Toast.LENGTH_LONG);
+
 
 
         }

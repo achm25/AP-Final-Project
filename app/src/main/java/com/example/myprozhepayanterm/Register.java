@@ -270,6 +270,7 @@ password = passText.getText().toString();
 
                 Intent intent = new Intent(activity, MainActivity.class);
                 intent.putExtra("user" , user);
+                System.out.println("beriiiiiim");
                 activity.startActivity(intent);
             }
 

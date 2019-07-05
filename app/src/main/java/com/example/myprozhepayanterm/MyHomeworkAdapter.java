@@ -22,6 +22,23 @@ public class MyHomeworkAdapter extends RecyclerView.Adapter<MyHomeworkAdapter.Vi
     User user;
     myClass myclass;
     boolean ischeck =true;
+
+
+
+    public MyHomeworkAdapter(Context mcontext,myClass m) {
+        this.mcontext = mcontext;
+        myclass = m;
+        arrMyHomework = m.teachershomework;
+        System.out.println("111111");
+        System.out.println("sizam : " + arrMyHomework.size());
+        if (m.studentshomework != null && m.studentshomework.size() > 0) {
+            ArrayList arr2 = m.studentshomework;
+            System.out.println("22222222");
+
+        }
+    }
+
+
     @NonNull
     @Override
     public ViewHolderHomework onCreateViewHolder(@NonNull ViewGroup parent, int position) {
@@ -32,7 +49,7 @@ public class MyHomeworkAdapter extends RecyclerView.Adapter<MyHomeworkAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolderHomework holder, int position) {
-
+        System.out.println("injam1");
         final Homework myHomework = arrMyHomework.get(position) ;
         holder.txt.setText(myHomework.name);
         holder.txt2.setText(myHomework.date);
@@ -127,15 +144,7 @@ public class MyHomeworkAdapter extends RecyclerView.Adapter<MyHomeworkAdapter.Vi
     }
 
 
-    public MyHomeworkAdapter(Context mcontext,myClass m) {
-        this.mcontext = mcontext;
-        myclass = m;
-        arrMyHomework = m.teachershomework;
 
-        if (m.studentshomework != null && m.studentshomework.size() > 0) {
-            ArrayList arr2 = m.studentshomework;
-
-        }
        /* System.out.println("size : " + arrMyHomework.size());
         String strTemp;
         ArrayList<String> strarr1 = new ArrayList<>();
@@ -201,4 +210,4 @@ arrMyHomework.set(j+1,temp);
 
     }
 
-}
+

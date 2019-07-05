@@ -11,7 +11,7 @@ public class User implements Serializable {
 
 
     ArrayList<myClass> studentOfMyClasses =new ArrayList<>();
-    ArrayList<myClass> teacherOfMyClasses = new ArrayList<>();
+    ArrayList<myClass> teacherOfMyClasses =new ArrayList<>();
     ArrayList<Homework> homeworksTecher = new ArrayList<>();
     ArrayList<Homework> homeworksStudent = new ArrayList<>();
     ArrayList<AnswerOfHomework> myAnswer = new ArrayList<>();

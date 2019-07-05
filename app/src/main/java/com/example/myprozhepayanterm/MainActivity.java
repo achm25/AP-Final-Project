@@ -30,27 +30,22 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
  Toolbar toolbar;
  NavigationView nv;
 ImageView imageView ;
-    MyAdapter adapter;
+    AdapteMain adapter;
+    AdapteMain adapteMain;
     User user;
     List<RecyclerItem> listItems = new ArrayList<>();
     List<RecyclerItem> listItems2 = new ArrayList<>();
     byte[] bitmapdata;
 List<RecyclerItem> templist = new ArrayList<>();
-    RecyclerView recyclerView;
+    RecyclerView rc;
 
 
-
-    public boolean checkList(RecyclerItem r,List<RecyclerItem> list)
-    {
-        for (int i = 0; i <list.size() ; i++) {
-            if(r == list.get(i))
-            {
-                return false;
-            }
-
-        }
-        return true;
+    void initializeAdapter(){
+        System.out.println("adapteeerrrr2");
+        adapteMain = new AdapteMain(this,user);
+        rc.setAdapter(adapteMain);
     }
+
 
 
     @Override
@@ -58,7 +53,7 @@ List<RecyclerItem> templist = new ArrayList<>();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_layput);
          user = (User) getIntent().getSerializableExtra("user");
-
+User te = (User) getIntent().getSerializableExtra("user");
 
 
         toolbar = findViewById(R.id.toolbar);
@@ -68,25 +63,26 @@ List<RecyclerItem> templist = new ArrayList<>();
 
 
         nv = findViewById(R.id.nav);
-recyclerView = findViewById(R.id.rec_mainactivity);
+rc = findViewById(R.id.rec_mainactivity);
+rc.setHasFixedSize(true);
+        rc.setLayoutManager(new LinearLayoutManager(this));
 //-----------------------------------------
 
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-
-
-
-
-
+        System.out.println(te.teacherOfMyClasses.isEmpty());
+        System.out.println(te.teacherOfMyClasses.size());
 
 
     System.out.println("shorooooooo");
     if(user.teacherOfMyClasses != null)
     {
-        if (user.teacherOfMyClasses.size()>0)
+        if (user.teacherOfMyClasses.isEmpty() != false)
         {
-            adapter = new MyAdapter(this, user);
-            recyclerView.setAdapter(adapter);
+            if(user.teacherOfMyClasses.size() > 0 )
+            {
+                System.out.println(user.teacherOfMyClasses.size() + "jjjj");
+                initializeAdapter();
+            }
+
         }
 
     }
@@ -286,9 +282,8 @@ if(preman.startSlider())
         protected void onPostExecute(String s) {
 
             MainActivity activity = activityReference.get();
-            adapter = new MyAdapter(activity, user);
-            recyclerView.setAdapter(adapter);
 
+            activity.initializeAdapter();
 
             super.onPostExecute(s);
 
